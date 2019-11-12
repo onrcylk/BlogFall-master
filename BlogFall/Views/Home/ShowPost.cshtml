@@ -114,7 +114,13 @@
             $(".comment-reply-form").html("");
             $(this).parent().next().html($("#commentForm").clone().removeAttr("id"));
         });
-        $(".commentS")
+        $('form[name="commentForm"]').submit(function (event)){
+            event.preventDefault();
+            alert("form submit oldu");
+
+
+
+        }
 
     </script>
 }
