@@ -1,0 +1,57 @@
+﻿@model List<Post>
+@{
+    ViewBag.Title = "Anasayfa";
+}
+<h3 class="pb-4 mb-4 font-italic border-bottom">
+    @ViewBag.SubTitle
+</h3>
+@foreach (var item in Model)
+{
+<div class="blog-post">
+    <h2 class="blog-post-title">
+
+    <a href="@Url.Action("ShowPost","Home",new {id=item.Id})" class="text-reset" text-decoration-none>@item.Title</a>
+    </h2>
+    <p class="blog-post-meta">@item.CreationTime <a href="#">@item.Author.UserName</a></p>
+
+    @Html.ShowPostIntro(item.Content)
+    <p class="text-right">
+        <a href="@Url.Action("ShowPost","Home",new {id=item.Id})">Devamını Oku</a>
+    </p>
+</div><!-- /.blog-post -->
+}
+<nav class="blog-pagination">
+    @if (ViewBag.page < ViewBag.pageCount)
+    {
+        <a class="btn btn-outline-primary" href="@Url.Action("Index", "Home", new
+                                        {
+                                            cid = ViewBag.cid,
+                                            page = ViewBag.nextPage
+                                        })">
+            &laquo; Daha eski
+        </a>
+    }
+    else
+    {
+        <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">
+            &laquo; Daha eski
+        </a>
+    }
+
+    @if (ViewBag.page > 1)
+    {
+        <a class="btn btn-outline-primary" href="@Url.Action("Index", "Home", new
+                                        {
+                                            cid = ViewBag.cid,
+                                            page = ViewBag.prevPage
+                                        })">
+            Daha yeni &raquo;
+        </a>
+    }
+    else
+    {
+        <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">
+            Daha yeni &raquo;
+        </a>
+    }
+</nav>
