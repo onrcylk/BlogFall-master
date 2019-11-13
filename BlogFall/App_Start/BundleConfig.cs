@@ -24,7 +24,9 @@ namespace BlogFall
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/fontawesome-all.css",
+                      "~/Content/toastr.css",
                       "~/Content/Site.css"));
+                      
 
             #if DEBUG
                 BundleTable.EnableOptimizations = false;
