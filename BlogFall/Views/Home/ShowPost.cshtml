@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-<div class="card mb-3">
+<div class="card mb-3"id="comments">
     <div class="card-header">
         <h5>Yorumlar:</h5>
         <div class="card-body">
@@ -130,7 +130,7 @@
 @section scripts {
     <script>
         $(function () {
-             if (location.hash) {
+            if (location.hash && location.hash.startsWith("#comment-")) {
                 var hash = location.hash;
 
                 if ($(hash).length) {
