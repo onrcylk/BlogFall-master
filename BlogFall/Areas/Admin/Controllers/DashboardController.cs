@@ -1,4 +1,5 @@
-﻿using BlogFall.Attributes;
+﻿using BlogFall.Areas.Admin.ViewModels;
+using BlogFall.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,10 +13,17 @@ namespace BlogFall.Areas.Admin.Controllers
     public class DashboardController : AdminBaseController
     {
         // GET: Admin/Dashboard
-        [Breadcrumb("İndeks")]
+        [Breadcrumb("Anasayfa")]
         public ActionResult Index()
         {
-            return View();
+            var model = new DashboardIndexViewModel
+            {
+                CategoryCount = db.Categories.Count(),
+                PostCount = db.Posts.Count(),
+                UserCount = db.Users.Count(),
+                CommentCount = db.Comments.Count(),
+            };
+            return View(model);
         }
     }
 }

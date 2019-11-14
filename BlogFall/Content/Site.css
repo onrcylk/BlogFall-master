@@ -12,6 +12,9 @@
 .blog-post-meta a{
     color: #999;
 }
+.blog-post-meta-footer a:link{
+    color: #999;
+}
 
     .blog-header-logo:hover {
         text-decoration: none;
