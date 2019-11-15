@@ -63,7 +63,7 @@ namespace BlogFall.Utility
         //https://stackoverflow.com/questions/25259/how-does-stack-overflow-generate-its-seo-friendly-urls
         public static string RemapInternationalCharToAscii(char c)
         {
-            string s = c.ToString().ToLower();
+            string s = c.ToString().ToLowerInvariant();
             if ("àåáâäãåą".Contains(s))
             {
                 return "a";
@@ -72,7 +72,7 @@ namespace BlogFall.Utility
             {
                 return "e";
             }
-            else if ("ìíîïı".Contains(s))
+            else if ("ìíîïıİi".Contains(s))
             {
                 return "i";
             }

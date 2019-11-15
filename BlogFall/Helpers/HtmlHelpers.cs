@@ -59,16 +59,25 @@ namespace BlogFall.Helpers
         }
         public static IHtmlString ShowPostIntro(this HtmlHelper htmlHelper,string content)
         {
+            if (string.IsNullOrEmpty(content))
+            {
+                return htmlHelper.Raw("");
+            }
+
             int pos = content.IndexOf("<hr>");
             if (pos==-1)
             {
                 return htmlHelper.Raw(content);
 
             }
-            return htmlHelper.Raw("");
+            return htmlHelper.Raw(content.Substring(0,pos));
         }
         public static IHtmlString ShowPost(this HtmlHelper htmlHelper, string content)
         {
+            if (string.IsNullOrEmpty(content))
+                return htmlHelper.Raw("");
+
+            
             int pos = content.IndexOf("<hr>");
             if (pos == -1)
             {

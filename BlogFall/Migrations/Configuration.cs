@@ -19,6 +19,16 @@ namespace BlogFall.Migrations
 
         protected override void Seed(BlogFall.Models.ApplicationDbContext context)
         {
+            var autoGenerateSlugs = false;
+            var autoGeneretaSlugsAll = false;
+
+            ////tüm kullanýcýlarý aktif yapar
+            //foreach (var item in context.Users)
+            //{
+            //    item.IsEnabled = true;
+            //}
+            //return;
+
             #region Admin Rolünü ve Kullanýcýsýný Oluþtur
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
@@ -29,21 +39,20 @@ namespace BlogFall.Migrations
                 manager.Create(role);
             }
 
-            if (!context.Users.Any(u => u.UserName == "yigith1@gmail.com"))
+            if (!context.Users.Any(u => u.UserName == "ozturkatahan5@gmail.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
                 var user = new ApplicationUser
                 {
-                    UserName = "yigith1@gmail.com",
-                    Email = "yigith1@gmail.com"
-                    
+                    UserName = "ozturkatahan5@gmail.com",
+                    Email = "ozturkatahan5@gmail.com"
                 };
 
-                manager.Create(user, "Ankara1.");
+                manager.Create(user, "Atahan1.");
                 manager.AddToRole(user.Id, "Admin");
 
-                // Oluþturulan bu kullanýcýya ait yazýlar ekleyelim:
+                //Oluþturulan bu kullanýcýya ait yazýlar ekleyelim:
                 #region Kategoriler ve Yazýlar
                 if (!context.Categories.Any())
                 {
@@ -111,9 +120,7 @@ namespace BlogFall.Migrations
             #region Admin kullanýcýsýna 77 yeni yazý ekle
             if (!context.Categories.Any(x => x.CategoryName == "Diðer"))
             {
-                ApplicationUser admin = context.Users
-                    .Where(x => x.UserName == "yigith1@gmail.com")
-                    .FirstOrDefault();
+                ApplicationUser admin = context.Users.Where(x => x.UserName == "ozturkatahan5@gmail.com").FirstOrDefault();
 
                 if (admin != null)
                 {
@@ -136,28 +143,39 @@ namespace BlogFall.Migrations
                                 CreationTime = DateTime.Now.AddMinutes(i)
                             });
                         }
+
                         context.Categories.Add(diger);
+
+
                     }
                 }
             }
             #endregion
 
             #region Mevcut kategori ve yazýlarýn slug'larýný oluþtur
-            foreach (var item in context.Categories)
+            if (autoGenerateSlugs)
             {
-                if (string.IsNullOrEmpty(item.Slug))
+
+                foreach (var item in context.Categories)
                 {
-                    item.Slug = UrlService.URLFriendly(item.CategoryName);
+                    if (autoGeneretaSlugsAll || string.IsNullOrEmpty(item.Slug))
+                    {
+                        item.Slug = UrlService.URLFriendly(item.CategoryName);
+                    }
                 }
-            }
-            foreach (var item in context.Posts)
-            {
-                if (string.IsNullOrEmpty(item.Slug))
+
+                foreach (var item in context.Posts)
                 {
-                    item.Slug = UrlService.URLFriendly(item.Title);
+                    if (autoGeneretaSlugsAll || string.IsNullOrEmpty(item.Slug))
+                    {
+                        item.Slug = UrlService.URLFriendly(item.Title);
+                    }
                 }
+
             }
             #endregion
+
+
         }
     }
 }
