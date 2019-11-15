@@ -8,10 +8,11 @@ using System.Web.Mvc;
 
 namespace BlogFall.Areas.Admin.Controllers
 {
-    public class CommentController : BaseController
+    [Breadcrumb("Yorumlar")]
+    public class CommentController : AdminBaseController
     {
         // GET: Admin/Comment
-        [Breadcrumb("Yorumlar")]
+        [Breadcrumb("İndeks")]
         public ActionResult Index()
         {
             return View(db.Comments.ToList());

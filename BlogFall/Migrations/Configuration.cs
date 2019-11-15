@@ -1,6 +1,7 @@
 namespace BlogFall.Migrations
 {
     using BlogFall.Models;
+    using BlogFall.Utility;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
@@ -137,6 +138,23 @@ namespace BlogFall.Migrations
                         }
                         context.Categories.Add(diger);
                     }
+                }
+            }
+            #endregion
+
+            #region Mevcut kategori ve yazýlarýn slug'larýný oluþtur
+            foreach (var item in context.Categories)
+            {
+                if (string.IsNullOrEmpty(item.Slug))
+                {
+                    item.Slug = UrlService.URLFriendly(item.CategoryName);
+                }
+            }
+            foreach (var item in context.Posts)
+            {
+                if (string.IsNullOrEmpty(item.Slug))
+                {
+                    item.Slug = UrlService.URLFriendly(item.Title);
                 }
             }
             #endregion

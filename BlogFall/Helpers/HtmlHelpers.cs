@@ -1,5 +1,7 @@
 ﻿using BlogFall.Areas.Admin.Controllers;
 using BlogFall.Attributes;
+using BlogFall.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +76,33 @@ namespace BlogFall.Helpers
 
             }
             return htmlHelper.Raw(content.Remove(pos,4));
+        }
+        public static string ProfilePhotoPath(this HtmlHelper htmlHelper)
+        {
+            string userId = htmlHelper.ViewContext.HttpContext.User.Identity.GetUserId();
+            var urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext, htmlHelper.RouteCollection);
+            if (userId != null)
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var user = db.Users.Find(userId);
+                    //fotograf varsa
+                    if (user != null && !string.IsNullOrEmpty(user.Photo))
+                    {
+                        return urlHelper.Content("~/Upload/Profiles/" + user.Photo);
+                    }
+                    
+
+
+                }
+
+
+               
+                   
+
+            }
+         return urlHelper.Content("~/Images/avatar.jpg");
+
         }
     }
 }
